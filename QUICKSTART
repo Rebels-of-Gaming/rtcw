@@ -1,0 +1,45 @@
+===================================
+Wolfenstein Multiplayer
+HOW TO CONFIGURE A DEDICATED SERVER
+===================================
+
+Some quick tips to start a Return to Castle Wolfenstein dedicated server:
+
+I usually just put the essential configuration variables on the command line of the server. The names are usually pretty explicit, you can find more information about the configuration variables in "Docs/Dedicated Server Notes.html" or by searching on the net.
+
+#1 Start the server with a command line:
+----------------------------------------
+
+wolfded +set com_hunkmegs 64 +set sv_maxrate 9000 +set com_zonemegs 32 +set dedicated 2 +set sv_hostname "my server" +set g_motd "my motd" +map mp_village
+
+#2 Use the map rotation scripts:
+--------------------------------
+
+main/rotate.cfg is a handy script that contains some basic map rotation scripts. You can just do:
+
+wolfded +set com_hunkmegs 64 +set sv_maxrate 9000 +set com_zonemegs 32 +set dedicated 2 +set sv_hostname "my server" +set g_motd "my motd" +exec rotate.cfg +vstr m_rotate1
+
+This will start a server that cycles through all the maps one by one. There are several other vstr defined for you:
+
+m_rotate1: will cycle through all the maps
+m_rotate4: will replay each map 4 times before switching to the next one
+m_nervecycle: will repeat the maps and change game types (Nerve style)
+
+Have a look at main/rotate.cfg and you'll figure out how to customize for your own needs.
+
+#3 Automate things:
+-------------------
+
+'screen' is an essential application for any server admin. Make sure it is installed on your system:
+
+from your shell, type:
+
+screen wolfded +set com_hunkmegs 64 +set sv_maxrate 9000 +set com_zonemegs 32 +set dedicated 2 +set sv_hostname "my server" +set g_motd "my motd" +exec rotate.cfg +vstr m_rotate1
+
+and hit Ctrl-A Ctrl-D to detach from your screen, logout, go do something else .. then do 'screen -r' to recover the console..
+
+Finally you can put everything in a shell script. I use run.sh:
+
+#!/bin/sh
+screen wolfded +set com_hunkmegs 64 +set sv_maxrate 9000 +set com_zonemegs 32 +set dedicated 2 +set sv_hostname "my server" +set g_motd "my motd" +exec rotate.cfg +vstr m_rotate1
+
